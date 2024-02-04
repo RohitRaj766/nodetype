@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((req, res, next) => {
     next();
@@ -17,22 +19,19 @@ const user1 = {
     password: "123456"
 };
 app.get('/dashboard', (req, res) => {
-    const reques = req.query;
+    const requestQuery = req.query;
     console.log(user1.username);
-    console.log(reques.username);
-    console.log("reques");
-    const { username, password } = reques;
-    if (user1.username == username && user1.password == password) {
+    console.log(requestQuery.username);
+    console.log("requestQuery");
+    const { username, password } = requestQuery;
+    if (user1.username === username && user1.password === password) {
         res.send(`Welcome ${username} your password is ${password}`);
     }
     else {
         res.send("Not a valid user");
     }
 });
-// app.get('/dashboard', (req: Request, res: Response) => {
-// res.redirect('/dashboard-page'); // Replace '/dashboard-page' with your actual dashboard route
-// });
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
-
+import dotenv from 'dotenv';
+dotenv.config();
 const app = express();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -11,36 +12,31 @@ app.get('/', (req: Request, res: Response) => {
     console.log("hi, My name is rohit");
 });
 
-interface user{
-    username:string;
-    password:string;
+interface User {
+    username: string;
+    password: string;
 }
 
-const user1: user ={
-    username:"Rohit",
-    password:"123456"
+const user1: User = {
+    username: "Rohit",
+    password: "123456"
 }
 
-app.get('/dashboard',(req: Request, res: Response)=>{
-    const reques = req.query;
-    console.log(user1.username)
-    console.log(reques.username)
-    console.log("reques");
-    const {username, password} = reques
-    if(user1.username == username && user1.password == password){
+app.get('/dashboard', (req: Request, res: Response) => {
+    const requestQuery = req.query;
+    console.log(user1.username);
+    console.log(requestQuery.username);
+    console.log("requestQuery");
+    const { username, password } = requestQuery;
 
-        res.send(`Welcome ${username} your password is ${password}`)
-    }else{
-        res.send("Not a valid user")
+    if (user1.username === username && user1.password === password) {
+        res.send(`Welcome ${username} your password is ${password}`);
+    } else {
+        res.send("Not a valid user");
     }
 });
 
-// app.get('/dashboard', (req: Request, res: Response) => {
-    // res.redirect('/dashboard-page'); // Replace '/dashboard-page' with your actual dashboard route
-// });
-
-
-const PORT:number = 5000;
+const PORT: number | string = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
